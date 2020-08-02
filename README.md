@@ -2,7 +2,7 @@
 
 ## Serviço para testes de Rest
 
-Fazer o download do arquivo [crud.jar](crud.jar) e executar o comando abaixo:
+Fazer o download do arquivo [crud.jar](crud.jar?raw=true) e executar o comando abaixo:
 
     java -jar crud.jar
 
