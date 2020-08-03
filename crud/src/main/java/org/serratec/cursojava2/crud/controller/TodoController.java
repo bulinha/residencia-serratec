@@ -2,18 +2,23 @@ package org.serratec.cursojava2.crud.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.serratec.cursojava2.crud.domain.Todo;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,9 +41,16 @@ public class TodoController {
 	
 	
 	@GetMapping
-	public List<Todo> getTodos(){
-		return cache;
+	public List<Todo> getTodos(@RequestParam Map<String,String> allParams){
+		return cache
+				.stream()
+				.filter(o -> 
+					Boolean.valueOf(allParams.getOrDefault("completada", o.getCompletada().toString())).equals(o.getCompletada()) &&
+					allParams.getOrDefault("titulo", o.getTitulo()).equals(o.getTitulo()) &&
+					allParams.getOrDefault("descricao", o.getDescricao()).equals(o.getDescricao())
+						).collect(Collectors.toList());
 	}
+	
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Todo> getTodo(@PathVariable Integer id) {
@@ -50,11 +62,16 @@ public class TodoController {
 	}
 	
 	@PostMapping(consumes = {MediaType.ALL_VALUE})
-	public Todo postTodo(@RequestBody Todo todo) {
+	public ResponseEntity<Todo> postTodo(@RequestBody Todo todo) {
 		Integer id = nextId ++;
 		todo.setId(id);
 		cache.add(todo);
-		return todo;
+		return ResponseEntity.status(HttpStatus.CREATED).body(todo);
+	}
+
+	@PatchMapping(path="/{id}", consumes = {MediaType.ALL_VALUE})
+	public ResponseEntity<Todo>  patchTodo(@PathVariable Integer id, @RequestBody Todo todo) {
+		return putTodo(id, todo);
 	}
 	
 	@PutMapping(path="/{id}", consumes = {MediaType.ALL_VALUE})
@@ -63,9 +80,12 @@ public class TodoController {
 				.filter(o -> o.getId().equals(id))
 				.findFirst()
 				.map(record -> {
-					record.setTitulo(todo.getTitulo());
-					record.setDescricao(todo.getDescricao());
-					record.setCompletada(todo.getCompletada());
+					if (todo.getTitulo()!=null)
+						record.setTitulo(todo.getTitulo());
+					if (todo.getDescricao()!=null)
+						record.setDescricao(todo.getDescricao());
+					if (todo.getCompletada()!=null)
+						record.setCompletada(todo.getCompletada());
 					return ResponseEntity.ok().body(record);
 				})
 				.orElse(ResponseEntity.notFound().build());
