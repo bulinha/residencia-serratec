@@ -1,13 +1,17 @@
 package org.serratec.java2backend.livro.entidade;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,12 +32,6 @@ public class Livro {
 	@Column(name="titulo", nullable = false, length=30)
 	private String titulo;
 	
-	
-	@NotNull
-	@Size(min = 10, max = 40)
-	@Column(name="autor", nullable = false, length=20)
-	private String autor;
-	
 	@NotNull
 	@Column(name="data_publicacao", nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -43,18 +41,20 @@ public class Livro {
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
 	
+	
+
+	@ManyToMany( )
+	@JoinTable(name = "livro_autor" , 
+		joinColumns = @JoinColumn(name = "livro_id", referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "id"))
+	private Set<Autor> autores;
+
+	
 
 	public Livro() {
 		super();
 	}
 
-	public Livro(String titulo, String autor, Date dataPublicacao, Categoria categoria) {
-		super();
-		this.titulo = titulo;
-		this.autor = autor;
-		this.dataPublicacao = dataPublicacao;
-		this.categoria = categoria;
-	}
 
 	public Integer getId() {
 		return id;
@@ -82,13 +82,16 @@ public class Livro {
 		this.categoria = categoria;
 	}
 
-	public String getAutor() {
-		return autor;
+
+	public Set<Autor> getAutores() {
+		return autores;
 	}
 
-	public void setAutor(String autor) {
-		this.autor = autor;
+
+	public void setAutores(Set<Autor> autores) {
+		this.autores = autores;
 	}
+
 
 	public Date getDataPublicacao() {
 		return dataPublicacao;

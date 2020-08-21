@@ -13,9 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Integer>{
 	
-	//busca livro pelo autor passado como parametro
-	List<Livro> findByAutor(String autor);
-	
 	
 	@Query ("select L from Livro L join fetch L.categoria ")
 	List<Livro> findByIdComCategoria(Sort sort);
@@ -25,6 +22,9 @@ public interface LivroRepository extends JpaRepository<Livro, Integer>{
 	
 	@Query("select L from Livro L join fetch L.categoria C where C.id = :id")
 	List<Livro> findByCategoriaId(@Param("id") Integer categoria);
+
+	@Query("select L from Livro L join L.autores A where A.nome=:autor")
+	List<Livro> findByAutor(@Param("autor") String autor);
 
 	//select L.*, C.* from Livro L join Categoria C on L.categoria_id = C.id where C.id = 10
 	

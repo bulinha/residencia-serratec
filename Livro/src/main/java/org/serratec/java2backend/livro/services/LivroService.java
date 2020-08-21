@@ -1,11 +1,11 @@
 package org.serratec.java2backend.livro.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.serratec.java2backend.livro.entidade.Categoria;
+import org.serratec.java2backend.livro.entidade.Autor;
 import org.serratec.java2backend.livro.entidade.Livro;
+import org.serratec.java2backend.livro.repositorio.AutorRepository;
 import org.serratec.java2backend.livro.repositorio.CategoriaRepository;
 import org.serratec.java2backend.livro.repositorio.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +45,25 @@ public class LivroService {
 		return findById(id);
 	}
 	
+	AutorRepository autorRepository;
+	CategoriaRepository categoriaRepository;
+	
 	@Transactional
 	public Livro insere(Livro livro) {
+//		for(Autor autor: livro.getAutores()) {
+//			if (!autorRepository.existsById(autor.getId())) {
+//				throw new AutorInvalidoException();
+//			}
+//		}
+//		if (!categoriaRepository.existsById(livro.getCategoria().getId()))
+//			throw new CategoriaInvalidaException();
 		return livroRepository.save(livro);
 	}
 
 	@Transactional
 	public Livro atualiza(Integer id, Livro livroNovo ) throws DataNotFoundException {
 		Livro livro = findById(id);
-		livro.setAutor(livroNovo.getAutor());
+		livro.setAutores(livroNovo.getAutores());
 		livro.setCategoria(livroNovo.getCategoria());
 		livro.setDataPublicacao(livroNovo.getDataPublicacao());
 		livro.setTitulo(livroNovo.getTitulo());

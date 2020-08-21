@@ -18,8 +18,6 @@ public class Categoria {
 	@Column(name="nome", nullable = false, length=20)
 	private String nome;
 	
-	
-	
 
 	public Categoria() {
 		super();
@@ -50,5 +48,6 @@ public class Categoria {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 }
