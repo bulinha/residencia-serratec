@@ -35,6 +35,12 @@ public class LivroController {
 		return livroService.buscaPorId(id);
 	}
 	
+	
+	@GetMapping("/buscaAutor")
+	public List<Livro> buscaPorAutor(@RequestParam String autor){
+		return livroService.buscaPorAutor(autor);
+	}
+	
 	@PostMapping
 	public Livro insere(@Valid @RequestBody Livro livro ) {
 		return livroService.insere(livro);
