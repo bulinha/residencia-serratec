@@ -18,25 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Scope("singleton")
 public class LivroService {
 	
-	public LivroService(LivroRepository livroRepository, CategoriaRepository categoriaRepository) {
-		this.livroRepository = livroRepository;
-		this.categoriaRepository = categoriaRepository;
-		Categoria ficcao = new Categoria("ficção");
-		ficcao = categoriaRepository.save(ficcao);
-		Categoria romance = new Categoria("romance");
-		romance = categoriaRepository.save(romance);
-		categoriaRepository.save(new Categoria("aventura"));
-		categoriaRepository.save(new Categoria("direito"));
-		categoriaRepository.save(new Categoria("ficção"));
-		
-		livroRepository.save(new Livro("star wars", "george lucas", new Date(1997,10,10, 0, 0, 0), ficcao));
-		livroRepository.save(new Livro("core java", "sun micro systems", new Date(2007,10,10,0,0,0), romance));
 
-	}
-	
+	@Autowired
 	private LivroRepository livroRepository;
-	
-	private CategoriaRepository categoriaRepository;
 	
 	
 	public List<Livro> buscaPorAutor(String autor) {
