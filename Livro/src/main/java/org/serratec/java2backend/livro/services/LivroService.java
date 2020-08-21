@@ -29,17 +29,6 @@ public class LivroService {
 	
 	@Transactional(readOnly = true)
 	public List<Livro> buscaTodos(String atributo){
-		
-		List<Livro> lista = livroRepository.findAll(Sort.by(atributo));
-		for(Livro livro : lista) {
-			System.out.println(livro.getCategoria().getNome());
-		}
-
-		lista = livroRepository.findByIdComCategoria(Sort.by(atributo));
-		for(Livro livro : lista) {
-			System.out.println(livro.getCategoria().getNome());
-		}
-		
 		return livroRepository.findByIdComCategoria(Sort.by(atributo));
 	}
 	

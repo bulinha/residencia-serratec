@@ -1,5 +1,6 @@
 package org.serratec.java2backend.livro.entidade;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ public class Autor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	
+	@Column(name="nome", nullable = false, length = 40)
 	private String nome;
 
 	public Integer getId() {

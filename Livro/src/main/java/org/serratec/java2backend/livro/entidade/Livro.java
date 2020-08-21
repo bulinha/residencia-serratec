@@ -15,8 +15,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 @Table(name="livro")
 public class Livro {
@@ -39,14 +37,11 @@ public class Livro {
 	@NotNull
 	@Column(name="data_publicacao", nullable = false)
 	@Temporal(TemporalType.DATE)
-	@JsonFormat(pattern = "dd-MM-yyyy", timezone = "America/Sao_Paulo")
 	private Date dataPublicacao;
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
-	
-	
 	
 
 	public Livro() {
