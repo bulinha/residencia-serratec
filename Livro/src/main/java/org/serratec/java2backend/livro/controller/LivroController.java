@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.serratec.java2backend.livro.entidade.Livro;
-import org.serratec.java2backend.livro.services.LivroNotFoundException;
+import org.serratec.java2backend.livro.services.DataNotFoundException;
 import org.serratec.java2backend.livro.services.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +31,7 @@ public class LivroController {
 		return livroService.buscaTodos(ordem);
 	}
 	@GetMapping("/{id}")
-	public Livro buscaPorId(@PathVariable Integer id) throws LivroNotFoundException {
+	public Livro buscaPorId(@PathVariable Integer id) throws DataNotFoundException {
 		return livroService.buscaPorId(id);
 	}
 	
@@ -47,12 +47,12 @@ public class LivroController {
 	}
 	
 	@PutMapping("/{id}")
-	public Livro atualiza(@PathVariable Integer id, @Valid @RequestBody Livro livro ) throws LivroNotFoundException {
+	public Livro atualiza(@PathVariable Integer id, @Valid @RequestBody Livro livro ) throws DataNotFoundException {
 		return livroService.atualiza(id, livro);
 	}
 	
 	@DeleteMapping("/id")
-	public void atualiza(@PathVariable Integer id) throws LivroNotFoundException {
+	public void atualiza(@PathVariable Integer id) throws DataNotFoundException {
 		livroService.apagaLivro(id);
 	}
 	

@@ -59,16 +59,16 @@ public class LivroService {
 		return livroRepository.findByIdComCategoria(Sort.by(atributo));
 	}
 	
-	private Livro findById(Integer id) throws LivroNotFoundException {
+	private Livro findById(Integer id) throws DataNotFoundException {
 		Optional<Livro> optionalLivro = livroRepository.findById(id);
 		if (optionalLivro.isPresent()) {
 			return optionalLivro.get();
 		}
-		throw new LivroNotFoundException(id);
+		throw new DataNotFoundException(id);
 	}
 	
 	@Transactional(readOnly = true)
-	public Livro buscaPorId(Integer id) throws LivroNotFoundException {
+	public Livro buscaPorId(Integer id) throws DataNotFoundException {
 		return findById(id);
 	}
 	
@@ -78,7 +78,7 @@ public class LivroService {
 	}
 
 	@Transactional
-	public Livro atualiza(Integer id, Livro livroNovo ) throws LivroNotFoundException {
+	public Livro atualiza(Integer id, Livro livroNovo ) throws DataNotFoundException {
 		Livro livro = findById(id);
 		livro.setAutor(livroNovo.getAutor());
 		livro.setCategoria(livroNovo.getCategoria());
@@ -88,7 +88,7 @@ public class LivroService {
 	}
 	
 	@Transactional
-	public void apagaLivro(Integer id) throws LivroNotFoundException {
+	public void apagaLivro(Integer id) throws DataNotFoundException {
 		Livro livro = findById(id);
 		livroRepository.delete(livro);
 	}

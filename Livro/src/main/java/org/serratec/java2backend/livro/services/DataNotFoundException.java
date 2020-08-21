@@ -1,9 +1,9 @@
 package org.serratec.java2backend.livro.services;
 
-public class LivroNotFoundException extends Exception {
+public class DataNotFoundException extends Exception {
 
 	private Integer id;
-	public LivroNotFoundException(Integer id) {
+	public DataNotFoundException(Integer id) {
 		this.id = id;
 	}
 	public Integer getId() {
