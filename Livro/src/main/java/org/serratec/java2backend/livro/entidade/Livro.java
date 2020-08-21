@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="livro")
+@Table(name="tb_livro")
 public class Livro {
 	
 	@Id

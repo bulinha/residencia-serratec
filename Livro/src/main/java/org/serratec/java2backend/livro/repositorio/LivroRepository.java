@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Integer>{
 	
+	//busca livro pelo autor passado como parametro
 	List<Livro> findByAutor(String autor);
 	
 	
